@@ -45,7 +45,7 @@ int main() {
 	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
 
 	// Classify
-	//classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
+	classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
 
 	return 0;
 }
