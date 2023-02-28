@@ -15,11 +15,10 @@
 // Libraries
 #include "boxmuller.c"
 #include "point.h"
-#include "Matrix.hpp"
+#include "Eigen/Dense"
 #include <vector>
 #include <fstream>
 #include <string>
-#include <iostream>
 
 // Methods
 
@@ -35,65 +34,28 @@
  * return:
  * 	@dest
  */
-void genGauss2D(size_t count, const Matrix& mean, const Matrix& covm, int id, std::string dest) {
+void genGauss2D(size_t count, 
+		const Eigen::Matrix<float, 2, 1>& mean, 
+		const Eigen::Matrix2f& covm, 
+		int id, 
+		std::string dest) {
 	// Open output file
 	std::ofstream outFile;
 	outFile.open(dest, std::ofstream::app);
 
 	for(int i = 0; i < count; i++) {
 		point newPoint;
-		newPoint.x = box_muller(mean.get(0,0), covm.get(0,0));
-		newPoint.y = box_muller(mean.get(1,0), covm.get(1,1));
+		newPoint.x = box_muller(mean(0,0), covm(0,0));
+		newPoint.y = box_muller(mean(1,0), covm(1,1));
 		
 		outFile << newPoint.x
 			<< " "
-			<< std::to_string(newPoint.y)
+			<< newPoint.y
 			<< " "
 			<< id
 			<< std::endl;
 	}
 
-	outFile.close();
-}
-
-/* save2D():
- * 	Saves two sets of vectors in a file.
- * args:
- * 	@source1: A vector with values to grab from.
- * 	@source2: A vector with values to grab from.
- * 	@fname: The name of the file to save to.
- * return:
- * 	void
- */
-void save2D(std::vector<point>& source1, std::vector<point>& source2, std::string fname) {
-	// Open output file
-	std::ofstream outFile;
-	outFile.open(fname);
-
-	// Save the first set of data
-	for(int i = 0; i < source1.size(); i++) {
-		point p = source1[i];
-		outFile << std::to_string(p.x)
-			<< " "
-			<< std::to_string(p.y)
-			<< " "
-			<< std::to_string(p.id)
-			<< std::endl;
-	}
-
-	// Save the second set of data
-	for(int i = 0; i < source2.size(); i++) {
-		point p = source2[i];
-		outFile << std::to_string(p.x)
-			<< " "
-			<< std::to_string(p.y)
-			<< " "
-			<< std::to_string(p.id)
-			<< std::endl;
-
-	}
-
-	// Close the opened file
 	outFile.close();
 }
 
