@@ -9,7 +9,7 @@
 */
 
 #include <math.h>
-
+#include <iostream>
 
 //extern float ranf();         /* ranf() is uniform in 0..1 */
 double ranf() {
