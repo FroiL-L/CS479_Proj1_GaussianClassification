@@ -15,9 +15,11 @@
 #include "Eigen/Dense"
 #include "dataGen.hpp"
 #include "point.h"
+#include "classification.hpp"
 
 // Macros
 #define OUTFILE "A.txt"		// The name of the file to output 2D values to.
+#define CLASSFILE "A_BC.txt"	// The name of the file to output the Bayes classifications to.
 #define D1_COUNT 60000		// The number of values to generate for one dataset, d1.
 #define D2_COUNT 140000		// The number of values to generate for one dataset, d2.
 
@@ -29,8 +31,8 @@ int main() {
 	Eigen::Matrix2f covm2;
 
 	// Define mean matrices
-	mu1 << 3, 6;
-	mu2 << 3, -2;
+	mu1 << 1, 1;
+	mu2 << 4, 4;
 
 	// Define covariance matrices
 	covm1 << 1, 0,
@@ -41,6 +43,9 @@ int main() {
 	// Generate data
 	genGauss2D(D1_COUNT, mu1, covm1, 1, OUTFILE);
 	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
+
+	// Classify
+	//classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
 
 	return 0;
 }
