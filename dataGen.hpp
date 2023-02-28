@@ -14,9 +14,12 @@
 
 // Libraries
 #include "boxmuller.c"
+#include "point.h"
+#include "Matrix.hpp"
 #include <vector>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 // Methods
 
@@ -24,17 +27,33 @@
  * 	Generates random values that are normally distributed
  * 	with a given set of mean and standard deviation.
  * args:
- * 	@count: Number of elements to generate.
- * 	@mean: The mean of the distribution.
- * 	@sd: The standard deviation of the distribution.
+ * 	@count: The number of elements to generate.
+ * 	@mean: The mean of the distributions.
+ * 	@covm: The covariance matrix of the features.
+ * 	@id: The id to classify the values to.
  * 	@dest: The location to save the generated values.
  * return:
  * 	@dest
  */
-void genGauss(int count, float mean, float sd, std::vector<float>& dest) {
+void genGauss2D(size_t count, const Matrix& mean, const Matrix& covm, int id, std::string dest) {
+	// Open output file
+	std::ofstream outFile;
+	outFile.open(dest, std::ofstream::app);
+
 	for(int i = 0; i < count; i++) {
-		dest.push_back(box_muller(mean, sd));
+		point newPoint;
+		newPoint.x = box_muller(mean.get(0,0), covm.get(0,0));
+		newPoint.y = box_muller(mean.get(1,0), covm.get(1,1));
+		
+		outFile << newPoint.x
+			<< " "
+			<< std::to_string(newPoint.y)
+			<< " "
+			<< id
+			<< std::endl;
 	}
+
+	outFile.close();
 }
 
 /* save2D():
@@ -46,21 +65,32 @@ void genGauss(int count, float mean, float sd, std::vector<float>& dest) {
  * return:
  * 	void
  */
-void save2D(std::vector<float>& source1, std::vector<float>& source2, std::string fname) {
+void save2D(std::vector<point>& source1, std::vector<point>& source2, std::string fname) {
 	// Open output file
 	std::ofstream outFile;
 	outFile.open(fname);
 
 	// Save the first set of data
 	for(int i = 0; i < source1.size(); i++) {
-		outFile << std::to_string(source1[i]) 
+		point p = source1[i];
+		outFile << std::to_string(p.x)
+			<< " "
+			<< std::to_string(p.y)
+			<< " "
+			<< std::to_string(p.id)
 			<< std::endl;
 	}
 
 	// Save the second set of data
 	for(int i = 0; i < source2.size(); i++) {
-		outFile << std::to_string(source2[i])
+		point p = source2[i];
+		outFile << std::to_string(p.x)
+			<< " "
+			<< std::to_string(p.y)
+			<< " "
+			<< std::to_string(p.id)
 			<< std::endl;
+
 	}
 
 	// Close the opened file
