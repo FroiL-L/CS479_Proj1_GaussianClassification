@@ -12,9 +12,9 @@
 // Libraries
 #include <vector>
 #include <iostream>
+#include "Eigen/Dense"
 #include "dataGen.hpp"
 #include "point.h"
-#include "Matrix.hpp"
 
 // Macros
 #define OUTFILE "A.txt"		// The name of the file to output 2D values to.
@@ -23,52 +23,23 @@
 
 int main() {
 	// Variables
-	//std::vector<point> d1Values(D1_COUNT);
-	//std::vector<point> d2Values(D1_COUNT);
-	Matrix mu1;
-	Matrix mu2;
-	Matrix covm1;
-	Matrix covm2;
+	Eigen::Matrix<float, 2, 1> mu1;
+	Eigen::Matrix<float, 2, 1> mu2;
+	Eigen::Matrix2f covm1;
+	Eigen::Matrix2f covm2;
 
-	// Define mean matrix for d1
-	mu1 = Matrix(2, 1);
-	mu1.set(0, 0, 3);
-	mu1.set(1, 0, 6);
+	// Define mean matrices
+	mu1 << 3, 6;
+	mu2 << 3, -2;
 
-	// Define mean matrix for d2
-	mu2 = Matrix(2, 1);
-	mu2.set(0, 0, 3);
-	mu2.set(1, 0, -2);
+	// Define covariance matrices
+	covm1 << 1, 0,
+	      0, 1;
+	covm2 << 1, 0,
+	      0, 1;
 
-	// Define covariance matrix for d1
-	covm1 = Matrix(2, 2);
-	for(int i = 0; i < covm1.rows; i++) {
-		for(int j = 0; j < covm1.cols; j++) {
-			if(i == j) {
-				covm1.set(i, j, 1);
-			}
-			else {
-				covm1.set(i, j, 0);
-			}
-		}
-	}
-
-	// Define covariance matrix for d2
-	covm2 = Matrix(2, 2);
-	for(int i = 0; i < covm2.rows; i++) {
-		for(int j = 0; j < covm2.cols; j++) {
-			if(i == j) {
-				covm2.set(i, j, 1);
-			}
-			else {
-				covm2.set(i, j, 0);
-			}
-		}
-	}
-
-	// Generate values for datasets
 	genGauss2D(D1_COUNT, mu1, covm1, 1, OUTFILE);
- 	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
+	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
 
 	return 1;
 }
