@@ -38,8 +38,9 @@ int main() {
 	covm2 << 1, 0,
 	      0, 1;
 
+	// Generate data
 	genGauss2D(D1_COUNT, mu1, covm1, 1, OUTFILE);
 	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
 
-	return 1;
+	return 0;
 }
