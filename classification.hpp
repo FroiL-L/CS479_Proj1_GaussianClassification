@@ -11,14 +11,14 @@
 
 #ifndef _CLASSIFICATION_H_
 #define _CLASSIFICATION_H_
-
+//
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <vector>
 #include <math.h>
-#include <Eigen/Dense>
-#include <Eigen/Core>
+#include "Eigen/Dense"
+#include "Eigen/Core"
 
 // Classifier.cpp
 
@@ -135,7 +135,18 @@ int bayesCaseThree(const Eigen::Matrix<float, 2, 1>& muOne, const Eigen::Matrix<
     outFile.close();
 }
 
-
+/* classifyEuclidean():
+ * 	Classifies points within a file between two classes, 1 and 2.
+ * 	Classification is based on minimizing the Euclidean distance
+ * 	with the feature and mean values.
+ * args:
+ * 	@means1: Set of mean values for features in class 1.
+ * 	@means2: Set of mean vluaes for features in class 2.
+ * 	@sourceFile: Path to the file with the data to classify.
+ * 	@destFile: Path to the file to write the classifications to.
+ * return:
+ * 	@destFile
+ */
 void classifyEuclidean(Eigen::Matrix<float, 2, 1> means1,
 		Eigen::Matrix<float, 2, 1> means2,
 		std::string sourceFile,
@@ -175,19 +186,47 @@ void classifyEuclidean(Eigen::Matrix<float, 2, 1> means1,
 	outFile.close();
 }
 
-
-/* classifyCaseI():
- * 	Classifies points within a file between two classes, 1 and 2.
- * 	Classification is based on minimizing the Euclidean distance
- * 	with the feature and mean values.
+/* misclassifyCount():
+ * 	Counts the number of misclassifications between a file containing
+ * 	the true classes of data points and another that contains the
+ * 	expected classification. This function only supports classes of
+ * 	type 1 or 2 and points must be one-to-one in each file to work
+ * 	properly.
  * args:
- * 	@means1: Set of mean values for features in class 1.
- * 	@means2: Set of mean vluaes for features in class 2.
- * 	@sourceFile: Path to the file with the data to classify.
- * 	@destFile: Path to the file to write the classifications to.
+ * 	@trueSrc: The path to the file containing the true classifications.
+ * 	@classSrc: The path to the file containing the expected
+ * 		classifications.
+ * 	@counts: The location to store misclassification counts.
  * return:
- * 	@destFile
+ * 	@counts.
  */
+void misclassifyCount(std::string trueSrc, std::string classSrc, std::vector<int>& counts) {
+	// Open files for reading
+	std::ifstream trueFile;
+	std::ifstream classFile;
+	
+	trueFile.open(trueSrc);
+	classFile.open(classSrc);
+
+	// Iterate through values in files and count misclassifications
+	float trueVal, classVal;
+	while(trueFile >> trueVal >> trueVal >> trueVal
+			&& classFile >> classVal >> classVal >> classVal) {
+		if(trueVal != classVal) {
+			if(trueVal == 1) {
+				counts[0] += 1;
+			}
+			else if(trueVal == 2) {
+				counts[1] += 1;
+			}
+		}
+	}
+
+	// Close files
+	trueFile.close();
+	classFile.close();
+
+}
 
 
 #endif
