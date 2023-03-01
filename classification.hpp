@@ -17,7 +17,7 @@
 #include <fstream>
 #include <vector>
 #include <math.h>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 
 // Classifier.cpp
 
@@ -45,9 +45,9 @@ void bayesCaseOne(Eigen::Matrix<float, 2, 1> muOne, Eigen::Matrix<float, 2, 1> m
         // Save choice
         outFile << xf << " " << yf << " ";
         if (discrimOne < discrimTwo) {
-            outFile << "1";
-        } else {
             outFile << "2";
+        } else {
+            outFile << "1";
         }
         outFile << std::endl;
     }

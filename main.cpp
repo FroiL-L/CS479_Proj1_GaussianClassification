@@ -13,7 +13,7 @@
 // Libraries
 #include <vector>
 #include <iostream>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 #include "dataGen.hpp"
 #include "point.h"
 #include "classification.hpp"
@@ -21,6 +21,7 @@
 // Macros
 #define OUTFILE "A.txt"		// The name of the file to output 2D values to.
 #define CLASSFILE "A_BC.txt"	// The name of the file to output the Bayes classifications to.
+#define EUCFILE "A_Euc.txt"	// The name of the file to output the Euclidian classifications to.
 #define D1_COUNT 60000		// The number of values to generate for one dataset, d1.
 #define D2_COUNT 140000		// The number of values to generate for one dataset, d2.
 
@@ -33,6 +34,7 @@ int main() {
 	float priorOne = 0.5;
     	float priorTwo = 0.5;
 	std::vector<int> misclassCounts = std::vector<int>(2);
+	std::vector<int> misclassCountsEuc = std::vector<int>(2);
 
 	// Define mean matrices
 	mu1 << 1, 1;
@@ -45,20 +47,30 @@ int main() {
 	      0, 1;
 
 	// Generate data
-	genGauss2D(D1_COUNT, mu1, covm1, 1, OUTFILE);
-	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
+	std::cout << "Generating data..." << std::endl;
+	//genGauss2D(D1_COUNT, mu1, covm1, 1, OUTFILE);
+	//genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
 
 	// Classify
+	std::cout << "Classifying with case I..." << std::endl;
 	bayesCaseOne(mu1,mu2,covm1(0,0),covm2(0,0),priorOne,priorTwo,OUTFILE, CLASSFILE);
 
-	classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
+	std::cout << "Classifying with Euclidean distance..." << std::endl;
+	classifyEuclidean(mu1, mu2, OUTFILE, EUCFILE);
 
 	// Count misclassifications
+	std::cout << "Counting misclassifications..." << std::endl;
 	misclassifyCount(OUTFILE, CLASSFILE, misclassCounts);
+	misclassifyCount(OUTFILE, EUCFILE, misclassCountsEuc);
 
-	std::cout << "Misclassifications:" << std::endl;
+	std::cout << std::endl << "Misclassifications (case I):" << std::endl;
 	std::cout << "ID=1: " << misclassCounts[0] << std::endl;
 	std::cout << "ID=2: " << misclassCounts[1] << std::endl;
+
+	std::cout << std::endl << "Misclassifications (Euclidean):" << std::endl;
+	std::cout << "ID=1: " << misclassCountsEuc[0] << std::endl;
+	std::cout << "ID=2: " << misclassCountsEuc[1] << std::endl;
+
 
 	return 0;
 }
