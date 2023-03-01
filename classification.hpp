@@ -1,7 +1,13 @@
-// classification.hpp
-// A library that contains tools for classification.
-// Authors:
-// Date: 27 February 2023
+/* classification.hpp:
+ * 	A library that contains tools for classification.
+ * authors:
+ *	Froilan Luna-Lopez
+ *  Aaron Ramirez
+ *		University of Nevada, Reno
+ *		CS 479 - Pattern Recognition
+ * date:
+ * 	27 February 2023
+ */
 
 #ifndef _CLASSIFICATION_H_
 #define _CLASSIFICATION_H_
@@ -168,6 +174,20 @@ void classifyEuclidean(Eigen::Matrix<float, 2, 1> means1,
 	inFile.close();
 	outFile.close();
 }
+
+
+/* classifyCaseI():
+ * 	Classifies points within a file between two classes, 1 and 2.
+ * 	Classification is based on minimizing the Euclidean distance
+ * 	with the feature and mean values.
+ * args:
+ * 	@means1: Set of mean values for features in class 1.
+ * 	@means2: Set of mean vluaes for features in class 2.
+ * 	@sourceFile: Path to the file with the data to classify.
+ * 	@destFile: Path to the file to write the classifications to.
+ * return:
+ * 	@destFile
+ */
 
 
 #endif
