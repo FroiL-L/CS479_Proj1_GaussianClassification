@@ -70,7 +70,7 @@ void bayesCaseTwo(const Eigen::Matrix<float, 2, 1>& muOne, const Eigen::Matrix<f
     while(inFile >> xf >> yf >> _f) {
         Eigen::Vector2f x(xf, yf);
         float discrimOne = ((sigmaOne.inverse() * muOne).transpose() * x)(0) - (0.5 * muOne.transpose() * sigmaOne.inverse() * muOne);
-        float discrimTwo = ((sigmaTwo.inverse() * muTwo).transpose() * x )(0) - (0.5 * muTwo.transpose() * sigmaTwo.inverse() * muTwo);
+        float discrimTwo = ((sigmaTwo.inverse() * muTwo).transpose() * x)(0) - (0.5 * muTwo.transpose() * sigmaTwo.inverse() * muTwo);
 
         if (priorOne != priorTwo) {
             discrimOne += log(priorOne);
@@ -95,8 +95,8 @@ void bayesCaseTwo(const Eigen::Matrix<float, 2, 1>& muOne, const Eigen::Matrix<f
 }
 
 
-void bayesCaseThree(const Eigen::Matrix<float, 2, 1>& muOne, const Eigen::Matrix<float, 2, 1>& muTwo, 
-    const Eigen::Matrix2f& sigmaOne, const Eigen::Matrix2f& sigmaTwo, float priorOne, float priorTwo,
+void bayesCaseThree(const Eigen::Vector2f muOne, const Eigen::Vector2f muTwo, 
+    const Eigen::Matrix2f sigmaOne, const Eigen::Matrix2f sigmaTwo, float priorOne, float priorTwo,
     const std::string& sourceFile, const std::string& destFile) {
 
     std::ifstream inFile;
