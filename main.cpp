@@ -3,6 +3,7 @@
  * 	classification.
  * authors:
  * 	Froilan Luna-Lopez
+ * 	Aaron Ramirez
  * 		University of Nevada, Reno
  * 		CS 479 - Pattern Recognition
  * date:
@@ -29,6 +30,8 @@ int main() {
 	Eigen::Matrix<float, 2, 1> mu2;
 	Eigen::Matrix2f covm1;
 	Eigen::Matrix2f covm2;
+	float priorOne = 0.5;
+    float priorTwo = 0.5;
 
 	// Define mean matrices
 	mu1 << 1, 1;
@@ -45,6 +48,7 @@ int main() {
 	genGauss2D(D2_COUNT, mu2, covm2, 2, OUTFILE);
 
 	// Classify
+	bayesCaseOne(mu1,mu2,covm1(0,0),covm2(0,0),priorOne,priorTwo,OUTFILE, ClASSFILE);
 	classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
 
 	return 0;
