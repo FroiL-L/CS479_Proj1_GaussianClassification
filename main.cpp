@@ -31,7 +31,8 @@ int main() {
 	Eigen::Matrix2f covm1;
 	Eigen::Matrix2f covm2;
 	float priorOne = 0.5;
-    float priorTwo = 0.5;
+    	float priorTwo = 0.5;
+	std::vector<int> misclassCounts = std::vector<int>(2);
 
 	// Define mean matrices
 	mu1 << 1, 1;
@@ -50,6 +51,13 @@ int main() {
 	// Classify
 	bayesCaseOne(mu1,mu2,covm1(0,0),covm2(0,0),priorOne,priorTwo,OUTFILE, ClASSFILE);
 	classifyEuclidean(mu1, mu2, OUTFILE, CLASSFILE);
+
+	// Count misclassifications
+	misclassifyCount(OUTFILE, CLASSFILE, misclassCounts);
+
+	std::cout << "Misclassifications:" << std::endl;
+	std::cout << "ID=1: " << misclassCounts[0] << std::endl;
+	std::cout << "ID=2: " << misclassCounts[1] << std::endl;
 
 	return 0;
 }
