@@ -120,10 +120,10 @@ void bayesCaseThree(const Eigen::Vector2f muOne, const Eigen::Vector2f muTwo,
         // Save choice
         outFile << xf << " " << yf << " ";
         if (discrimOne < discrimTwo) {
-            outFile << "1";
+            outFile << "2";
         }
         else {
-            outFile << "2";
+            outFile << "1";
         }
         outFile << std::endl;
     }
