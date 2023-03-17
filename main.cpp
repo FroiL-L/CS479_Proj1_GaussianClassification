@@ -39,8 +39,8 @@ int main() {
 	Eigen::Matrix<float, 2, 1> mu2;
 	Eigen::Matrix2f covm1;
 	Eigen::Matrix2f covm2;
-	float priorOne = 0.5;
-    	float priorTwo = 0.5;
+	float priorOne = 0.3;
+    	float priorTwo = 0.7;
 	std::vector<int> misclassCounts = std::vector<int>(2);
 	std::vector<int> misclassCountsEuc = std::vector<int>(2);
 
